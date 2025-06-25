@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM - Scandinavian Design</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --black: #1a1a1a;
+            --white: #ffffff;
+            --beige: #f5f2ed;
+            --light-beige: #faf8f5;
+            --royal-blue: #1e3a8a;
+            --light-blue: #3b82f6;
+            --gray: #6b7280;
+            --light-gray: #e5e7eb;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light-beige);
+            color: var(--black);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            background: var(--white);
+            padding: 1.5rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--black);
+        }
+        
+        .btn {
+            background: var(--royal-blue);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .btn:hover {
+            background: var(--light-blue);
+            transform: translateY(-1px);
+        }
+        
+        .btn-visualize {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--white);
+        }
+        
+        .btn-visualize:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+        
+        .btn-secondary {
+            background: var(--white);
+            color: var(--black);
+            border: 1px solid var(--light-gray);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--beige);
+        }
+        
+        .filters {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select, textarea {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            background: var(--white);
+            transition: border-color 0.2s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--royal-blue);
+        }
+        
+        .table-container {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: var(--beige);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: var(--black);
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+            font-size: 0.875rem;
+        }
+        
+        tr:hover {
+            background: var(--light-beige);
+        }
+        
+        .stage {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .stage-new { background: #dbeafe; color: #1e40af; }
+        .stage-contacted { background: #fef3c7; color: #92400e; }
+        .stage-discussion { background: #e0e7ff; color: #3730a3; }
+        .stage-won { background: #d1fae5; color: #065f46; }
+        .stage-lost { background: #fee2e2; color: #991b1b; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--white);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+        
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--black);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .activity-log {
+            background: var(--light-beige);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .activity-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--light-gray);
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: var(--beige);
+            color: var(--black);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        
+        .reminder {
+            color: var(--warning);
+            font-weight: 500;
+        }
+        
+        .overdue {
+            color: var(--danger);
+        }
+        
+        /* WebXR Styles */
+        #xr-intro {
+            position: fixed;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            z-index: 2000;
+            color: white;
+        }
+        
+        #xr-intro.active {
+            display: flex;
+        }
+        
+        #xr-intro h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        #xr-intro p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            text-align: center;
+            opacity: 0.9;
+            max-width: 500px;
+        }
+        
+        #xr-intro button {
+            padding: 15px 40px;
+            font-size: 20px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid #fff;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            margin: 10px;
+        }
+        
+        #xr-intro button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+        
+        #status {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: none;
+            z-index: 100;
+            color: white;
+        }
+        
+        .xr-ui {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: none;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .xr-ui button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.9);
+            color: #000;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .xr-active .xr-ui {
+            display: flex;
+        }
+        
+        .xr-active #crm-content {
+            display: none;
+        }
+        
+        .stats {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            z-index: 100;
+            font-size: 14px;
+            color: white;
+        }
+        
+        .xr-active .stats {
+            display: block;
+        }
+        
+        .legend {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            z-index: 100;
+            font-size: 12px;
+            color: white;
+        }
+        
+        .xr-active .legend {
+            display: block;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            .header-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Regular CRM Content -->
+    <div id="crm-content">
+        <header>
+            <div class="header-content">
+                <h1>CRM Dashboard</h1>
+                <div class="header-buttons">
+                    <button class="btn btn-visualize" onclick="openXRIntro()">🥽 Visualize in AR</button>
+                    <button class="btn" onclick="openModal('add')">+ New Client</button>
+                </div>
+            </div>
+        </header>
+        
+        <div class="container">
+            <div class="filters">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search by name or company..." onkeyup="filterClients()">
+                </div>
+                <select id="stageFilter" onchange="filterClients()">
+                    <option value="">All Stages</option>
+                    <option value="new">New Lead</option>
+                    <option value="contacted">Contacted</option>
+                    <option value="discussion">In Discussion</option>
+                    <option value="won">Closed-Won</option>
+                    <option value="lost">Closed-Lost</option>
+                </select>
+                <select id="assigneeFilter" onchange="filterClients()">
+                    <option value="">All Team Members</option>
+                    <option value="Anna S.">Anna S.</option>
+                    <option value="Erik L.">Erik L.</option>
+                    <option value="Sofia K.">Sofia K.</option>
+                </select>
+                <button class="btn-secondary btn" onclick="showReminders()">Due Today</button>
+            </div>
+            
+            <div class="table-container">
+                <table id="clientsTable">
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Company</th>
+                            <th>Stage</th>
+                            <th>Product Interest</th>
+                            <th>Deal Value</th>
+                            <th>Next Follow-up</th>
+                            <th>Assigned To</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientsBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="clientModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Add New Client</h2>
+                    <button class="close-btn" onclick="closeModal()">&times;</button>
+                </div>
+                <form id="clientForm" onsubmit="saveClient(event)">
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Client Name*</label>
+                                <input type="text" id="clientName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Company</label>
+                                <input type="text" id="company">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="email">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel" id="phone">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>LinkedIn</label>
+                            <input type="text" id="linkedin" placeholder="linkedin.com/in/username">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Stage</label>
+                                <select id="stage" required>
+                                    <option value="new">New Lead</option>
+                                    <option value="contacted">Contacted</option>
+                                    <option value="discussion">In Discussion</option>
+                                    <option value="won">Closed-Won</option>
+                                    <option value="lost">Closed-Lost</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Assigned To</label>
+                                <select id="assignedTo" required>
+                                    <option value="Anna S.">Anna S.</option>
+                                    <option value="Erik L.">Erik L.</option>
+                                    <option value="Sofia K.">Sofia K.</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Product Interest</label>
+                            <select id="productInterest" multiple style="height: 80px;">
+                                <option value="Product A">Product A</option>
+                                <option value="Product B">Product B</option>
+                                <option value="Product C">Product C</option>
+                                <option value="Consulting">Consulting</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Deal Value</label>
+                                <input type="text" id="dealValue" placeholder="$0">
+                            </div>
+                            <div class="form-group">
+                                <label>Expected Close Date</label>
+                                <input type="date" id="closeDate">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Next Follow-up</label>
+                            <input type="date" id="followUp">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <textarea id="notes" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="activity-log" id="activityLog" style="display: none;">
+                            <h4 style="margin-bottom: 0.5rem;">Activity Timeline</h4>
+                            <div id="activities"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary btn" onclick="closeModal()">Cancel</button>
+                        <button type="submit" class="btn">Save Client</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- WebXR Intro Screen -->
+    <div id="xr-intro">
+        <h1>CRM Spatial Pipeline</h1>
+        <h2>3D Client Visualization</h2>
+        <p>Visualize your client pipeline in three-dimensional space.<br>See team assignments, deal stages, and client progress at a glance</p>
+        <button id="start-xr">Start AR</button>
+        <button id="back-crm" onclick="closeXRIntro()">← Back to CRM</button>
+    </div>
+    
+    <!-- WebXR UI Elements -->
+    <div id="status"></div>
+    <div class="xr-ui">
+        <button id="exit">×</button>
+        <button id="reset">⟲</button>
+    </div>
+    <div class="stats">
+        <div>Total Clients: <span id="total-clients">0</span></div>
+        <div>Active Deals: <span id="active-deals">0</span></div>
+        <div>Total Value: <span id="total-value">$0</span></div>
+        <div>Selected: <span id="selected-client">None</span></div>
+    </div>
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background: #88aaff;"></div>
+            <span>New Lead</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ffaa88;"></div>
+            <span>Contacted</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #aa88ff;"></div>
+            <span>In Discussion</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #88ff88;"></div>
+            <span>Closed-Won</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ff8888;"></div>
+            <span>Closed-Lost</span>
+        </div>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'https://unpkg.com/three@0.150.1/build/three.module.js';
+        
+        // CRM Variables
+        let clients = JSON.parse(localStorage.getItem('crmClients')) || [];
+        let editingId = null;
+        
+        // WebXR Variables
+        let camera, scene, renderer, xrSession, raycaster;
+        let controllers = [];
+        let selectedObject = null;
+        let activeControllers = new Set();
+        let clientObjects = [];
+        let teamGroups = [];
+        let stageAreas = [];
+        
+        const stageConfig = {
+            'new': { color: 0x88aaff, position: { x: -0.6, z: 0 } },
+            'contacted': { color: 0xffaa88, position: { x: -0.3, z: 0 } },
+            'discussion': { color: 0xaa88ff, position: { x: 0, z: 0 } },
+            'won': { color: 0x88ff88, position: { x: 0.3, z: 0 } },
+            'lost': { color: 0xff8888, position: { x: 0.6, z: 0 } }
+        };
+        
+        const teamConfig = {
+            'Anna S.': { color: 0xff6b9d, position: { x: 0, z: -0.4 } },
+            'Erik L.': { color: 0x6bb6ff, position: { x: 0, z: 0 } },
+            'Sofia K.': { color: 0x9d6bff, position: { x: 0, z: 0.4 } }
+        };
+        
+        // CRM Functions
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+        
+        function formatDate(date) {
+            if (!date) return '';
+            return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+        
+        function isOverdue(date) {
+            if (!date) return false;
+            return new Date(date) < new Date();
+        }
+        
+        function openModal(mode, clientId) {
+            const modal = document.getElementById('clientModal');
+            const form = document.getElementById('clientForm');
+            form.reset();
+            
+            if (mode === 'edit' && clientId) {
+                editingId = clientId;
+                const client = clients.find(c => c.id === clientId);
+                if (client) {
+                    document.getElementById('modalTitle').textContent = 'Edit Client';
+                    document.getElementById('clientName').value = client.name;
+                    document.getElementById('company').value = client.company || '';
+                    document.getElementById('email').value = client.email || '';
+                    document.getElementById('phone').value = client.phone || '';
+                    document.getElementById('linkedin').value = client.linkedin || '';
+                    document.getElementById('stage').value = client.stage;
+                    document.getElementById('assignedTo').value = client.assignedTo;
+                    document.getElementById('dealValue').value = client.dealValue || '';
+                    document.getElementById('closeDate').value = client.closeDate || '';
+                    document.getElementById('followUp').value = client.followUp || '';
+                    document.getElementById('notes').value = client.notes || '';
+                    
+                    const productSelect = document.getElementById('productInterest');
+                    if (client.productInterest) {
+                        Array.from(productSelect.options).forEach(option => {
+                            option.selected = client.productInterest.includes(option.value);
+                        });
+                    }
+                    
+                    if (client.activities && client.activities.length > 0) {
+                        document.getElementById('activityLog').style.display = 'block';
+                        const activitiesDiv = document.getElementById('activities');
+                        activitiesDiv.innerHTML = client.activities.map(activity => 
+                            `<div class="activity-item">${activity.date} - ${activity.action} by ${activity.user}</div>`
+                        ).join('');
+                    }
+                }
+            } else {
+                editingId = null;
+                document.getElementById('modalTitle').textContent = 'Add New Client';
+                document.getElementById('activityLog').style.display = 'none';
+            }
+            
+            modal.classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('clientModal').classList.remove('active');
+            editingId = null;
+        }
+        
+        function saveClient(event) {
+            event.preventDefault();
+            
+            const productSelect = document.getElementById('productInterest');
+            const selectedProducts = Array.from(productSelect.selectedOptions).map(option => option.value);
+            
+            const clientData = {
+                id: editingId || generateId(),
+                name: document.getElementById('clientName').value,
+                company: document.getElementById('company').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                linkedin: document.getElementById('linkedin').value,
+                stage: document.getElementById('stage').value,
+                assignedTo: document.getElementById('assignedTo').value,
+                productInterest: selectedProducts,
+                dealValue: document.getElementById('dealValue').value,
+                closeDate: document.getElementById('closeDate').value,
+                followUp: document.getElementById('followUp').value,
+                notes: document.getElementById('notes').value,
+                activities: []
+            };
+            
+            if (editingId) {
+                const index = clients.findIndex(c => c.id === editingId);
+                const oldClient = clients[index];
+                clientData.activities = oldClient.activities || [];
+                
+                if (oldClient.stage !== clientData.stage) {
+                    clientData.activities.unshift({
+                        date: new Date().toLocaleDateString(),
+                        action: `Stage changed from ${oldClient.stage} to ${clientData.stage}`,
+                        user: clientData.assignedTo
+                    });
+                }
+                
+                clients[index] = clientData;
+            } else {
+                clientData.activities = [{
+                    date: new Date().toLocaleDateString(),
+                    action: 'Client created',
+                    user: clientData.assignedTo
+                }];
+                clients.push(clientData);
+            }
+            
+            localStorage.setItem('crmClients', JSON.stringify(clients));
+            closeModal();
+            renderClients();
+        }
+        
+        function deleteClient(clientId) {
+            if (confirm('Are you sure you want to delete this client?')) {
+                clients = clients.filter(c => c.id !== clientId);
+                localStorage.setItem('crmClients', JSON.stringify(clients));
+                renderClients();
+            }
+        }
+        
+        function renderClients() {
+            const tbody = document.getElementById('clientsBody');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const stageFilter = document.getElementById('stageFilter').value;
+            const assigneeFilter = document.getElementById('assigneeFilter').value;
+            
+            let filteredClients = clients.filter(client => {
+                const matchesSearch = !searchTerm || 
+                    client.name.toLowerCase().includes(searchTerm) || 
+                    (client.company && client.company.toLowerCase().includes(searchTerm));
+                const matchesStage = !stageFilter || client.stage === stageFilter;
+                const matchesAssignee = !assigneeFilter || client.assignedTo === assigneeFilter;
+                
+                return matchesSearch && matchesStage && matchesAssignee;
+            });
+            
+            tbody.innerHTML = filteredClients.map(client => {
+                const stageClass = `stage-${client.stage}`;
+                const followUpClass = isOverdue(client.followUp) ? 'overdue' : 'reminder';
+                
+                return `
+                    <tr>
+                        <td>
+                            <strong>${client.name}</strong>
+                            ${client.email ? `<br><small style="color: var(--gray)">${client.email}</small>` : ''}
+                        </td>
+                        <td>${client.company || '-'}</td>
+                        <td><span class="stage ${stageClass}">${client.stage.replace('-', ' ').toUpperCase()}</span></td>
+                        <td>
+                            <div class="tags">
+                                ${client.productInterest && client.productInterest.length > 0 
+                                    ? client.productInterest.map(p => `<span class="tag">${p}</span>`).join('') 
+                                    : '-'}
+                            </div>
+                        </td>
+                        <td>${client.dealValue || '-'}</td>
+                        <td class="${client.followUp && isOverdue(client.followUp) ? followUpClass : ''}">
+                            ${formatDate(client.followUp) || '-'}
+                        </td>
+                        <td>${client.assignedTo}</td>
+                        <td>
+                            <button class="btn-secondary btn" style="padding: 0.25rem 0.75rem; margin-right: 0.5rem;" onclick="openModal('edit', '${client.id}')">Edit</button>
+                            <button class="btn-secondary btn" style="padding: 0.25rem 0.75rem;" onclick="deleteClient('${client.id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('') || '<tr><td colspan="8" style="text-align: center; padding: 2rem;">No clients found</td></tr>';
+        }
+        
+        function filterClients() {
+            renderClients();
+        }
+        
+        function showReminders() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('searchInput').value = '';
+            document.getElementById('stageFilter').value = '';
+            document.getElementById('assigneeFilter').value = '';
+            
+            const tbody = document.getElementById('clientsBody');
+            const todayClients = clients.filter(client => client.followUp === today);
+            
+            tbody.innerHTML = todayClients.map(client => {
+                const stageClass = `stage-${client.stage}`;
+                
+                return `
+                    <tr>
+                        <td>
+                            <strong>${client.name}</strong>
+                            ${client.email ? `<br><small style="color: var(--gray)">${client.email}</small>` : ''}
+                        </td>
+                        <td>${client.company || '-'}</td>
+                        <td><span class="stage ${stageClass}">${client.stage.replace('-', ' ').toUpperCase()}</span></td>
+                        <td>
+                            <div class="tags">
+                                ${client.productInterest && client.productInterest.length > 0 
+                                    ? client.productInterest.map(p => `<span class="tag">${p}</span>`).join('') 
+                                    : '-'}
+                            </div>
+                        </td>
+                        <td>${client.dealValue || '-'}</td>
+                        <td class="reminder">${formatDate(client.followUp) || '-'}</td>
+                        <td>${client.assignedTo}</td>
+                        <td>
+                            <button class="btn-secondary btn" style="padding: 0.25rem 0.75rem; margin-right: 0.5rem;" onclick="openModal('edit', '${client.id}')">Edit</button>
+                            <button class="btn-secondary btn" style="padding: 0.25rem 0.75rem;" onclick="deleteClient('${client.id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('') || '<tr><td colspan="8" style="text-align: center; padding: 2rem;">No follow-ups due today</td></tr>';
+        }
+        
+        // WebXR Functions
+        function openXRIntro() {
+            initXR();
+        }
+        
+        function closeXRIntro() {
+            document.getElementById('xr-intro').classList.remove('active');
+        }
+        
+        document.getElementById('start-xr').addEventListener('click', () => {
+            document.getElementById('xr-intro').style.display = 'none';
+            initXR();
+        });
+        
+        document.getElementById('exit').addEventListener('click', () => {
+            if (xrSession) xrSession.end();
+        });
+        
+        document.getElementById('reset').addEventListener('click', () => {
+            resetView();
+        });
+        
+        function initXR() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
+            
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.xr.enabled = true;
+            document.body.appendChild(renderer.domElement);
+            
+            scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+            
+            raycaster = new THREE.Raycaster();
+            
+            if (!navigator.xr) {
+                updateStatus('WebXR not supported');
+                return;
+            }
+            
+            navigator.xr.isSessionSupported('immersive-ar').then(supported => {
+                if (supported) {
+                    navigator.xr.requestSession('immersive-ar', {
+                        requiredFeatures: ['hit-test']
+                    }).then(onSessionStarted);
+                } else {
+                    updateStatus('AR not supported');
+                }
+            });
+        }
+        
+        function onSessionStarted(session) {
+            xrSession = session;
+            document.body.classList.add('xr-active');
+            renderer.xr.setReferenceSpaceType('local');
+            renderer.xr.setSession(session);
+            
+            setupControllers();
+            createStageAreas();
+            createTeamAreas();
+            createClientObjects();
+            
+            renderer.setAnimationLoop(render);
+            session.addEventListener('end', onSessionEnd);
+            
+            updateStatus('Navigate your CRM pipeline in 3D space');
+            updateStats();
+        }
+        
+        function setupControllers() {
+            for (let i = 0; i < 2; i++) {
+                const controller = renderer.xr.getController(i);
+                controller.userData.id = i;
+                
+                const handGeometry = new THREE.SphereGeometry(0.015, 12, 12);
+                const handMaterial = new THREE.MeshBasicMaterial({
+                    color: i === 0 ? 0x88aaff : 0xff8888,
+                    transparent: true,
+                    opacity: 0.6
+                });
+                const handMesh = new THREE.Mesh(handGeometry, handMaterial);
+                controller.add(handMesh);
+                
+                controller.addEventListener('selectstart', onSelectStart);
+                controller.addEventListener('selectend', onSelectEnd);
+                scene.add(controller);
+                controllers.push(controller);
+            }
+        }
+        
+        function createStageAreas() {
+            Object.entries(stageConfig).forEach(([stage, config]) => {
+                const areaGroup = new THREE.Group();
+                areaGroup.position.set(config.position.x, -0.1, config.position.z - 0.8);
+                
+                const geometry = new THREE.CylinderGeometry(0.12, 0.12, 0.005, 16);
+                const material = new THREE.MeshBasicMaterial({
+                    color: config.color,
+                    transparent: true,
+                    opacity: 0.3
+                });
+                const pad = new THREE.Mesh(geometry, material);
+                areaGroup.add(pad);
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 64;
+                const ctx = canvas.getContext('2d');
+                
+                ctx.fillStyle = `rgb(${(config.color >> 16) & 255}, ${(config.color >> 8) & 255}, ${config.color & 255})`;
+                ctx.font = 'bold 20px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(stage.toUpperCase(), 128, 32);
+                
+                const texture = new THREE.CanvasTexture(canvas);
+                const labelMaterial = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    transparent: true,
+                    alphaTest: 0.1
+                });
+                
+                const label = new THREE.Mesh(
+                    new THREE.PlaneGeometry(0.15, 0.04),
+                    labelMaterial
+                );
+                label.position.y = 0.15;
+                areaGroup.add(label);
+                
+                scene.add(areaGroup);
+                stageAreas.push({ stage, group: areaGroup, config });
+            });
+        }
+        
+        function createTeamAreas() {
+            Object.entries(teamConfig).forEach(([member, config]) => {
+                const areaGroup = new THREE.Group();
+                areaGroup.position.set(config.position.x - 0.8, 0, config.position.z);
+                
+                const geometry = new THREE.CylinderGeometry(0.08, 0.08, 0.005, 12);
+                const material = new THREE.MeshBasicMaterial({
+                    color: config.color,
+                    transparent: true,
+                    opacity: 0.4
+                });
+                const pad = new THREE.Mesh(geometry, material);
+                areaGroup.add(pad);
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 64;
+                const ctx = canvas.getContext('2d');
+                
+                ctx.fillStyle = `rgb(${(config.color >> 16) & 255}, ${(config.color >> 8) & 255}, ${config.color & 255})`;
+                ctx.font = 'bold 18px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(member, 128, 32);
+                
+                const texture = new THREE.CanvasTexture(canvas);
+                const labelMaterial = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    transparent: true,
+                    alphaTest: 0.1
+                });
+                
+                const label = new THREE.Mesh(
+                    new THREE.PlaneGeometry(0.12, 0.03),
+                    labelMaterial
+                );
+                label.position.y = 0.12;
+                areaGroup.add(label);
+                
+                scene.add(areaGroup);
+                teamGroups.push({ member, group: areaGroup, config });
+            });
+        }
+        
+        function createClientObjects() {
+            clientObjects.forEach(clientObj => {
+                if (clientObj.group.parent) {
+                    clientObj.group.parent.remove(clientObj.group);
+                }
+            });
+            clientObjects = [];
+            
+            clients.forEach((client, index) => {
+                const clientGroup = new THREE.Group();
+                
+                const stagePos = stageConfig[client.stage].position;
+                const teamPos = teamConfig[client.assignedTo].position;
+                
+                clientGroup.position.set(
+                    stagePos.x + (Math.random() - 0.5) * 0.08,
+                    0 + index * 0.02,
+                    stagePos.z - 0.8 + (teamPos.z * 0.3) + (Math.random() - 0.5) * 0.06
+                );
+                
+                const dealValue = parseInt(client.dealValue.replace(/[$,]/g, '')) || 1000;
+                const sphereSize = 0.02 + (dealValue / 100000) * 0.02;
+                
+                const geometry = new THREE.SphereGeometry(sphereSize, 16, 16);
+                const stageColor = stageConfig[client.stage].color;
+                const teamColor = teamConfig[client.assignedTo].color;
+                
+                const blendedColor = new THREE.Color(stageColor).lerp(new THREE.Color(teamColor), 0.3);
+                
+                const material = new THREE.MeshBasicMaterial({
+                    color: blendedColor,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                
+                const sphere = new THREE.Mesh(geometry, material);
+                
+                const glowGeometry = new THREE.SphereGeometry(sphereSize * 1.5, 12, 12);
+                const glowMaterial = new THREE.MeshBasicMaterial({
+                    color: blendedColor,
+                    transparent: true,
+                    opacity: 0.2
+                });
+                const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+                sphere.add(glow);
+                
+                sphere.userData = {
+                    isClient: true,
+                    client: client,
+                    originalColor: blendedColor.clone(),
+                    material: material,
+                    glow: glow
+                };
+                
+                clientGroup.add(sphere);
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = 400;
+                canvas.height = 120;
+                const ctx = canvas.getContext('2d');
+                
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fillRect(0, 0, 400, 120);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 16px Arial';
+                ctx.fillText(client.name, 10, 25);
+                ctx.font = '14px Arial';
+                ctx.fillText(client.company || 'No Company', 10, 45);
+                ctx.fillText(`${client.stage.toUpperCase()} - ${client.assignedTo}`, 10, 65);
+                ctx.fillText(client.dealValue, 10, 85);
+                ctx.fillText(client.followUp ? `Follow-up: ${client.followUp}` : 'No follow-up', 10, 105);
+                
+                const texture = new THREE.CanvasTexture(canvas);
+                const labelMaterial = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    transparent: true,
+                    alphaTest: 0.1
+                });
+                
+                const label = new THREE.Mesh(
+                    new THREE.PlaneGeometry(0.2, 0.06),
+                    labelMaterial
+                );
+                label.position.y = sphereSize + 0.05;
+                label.visible = false;
+                clientGroup.add(label);
+                
+                sphere.userData.label = label;
+                
+                scene.add(clientGroup);
+                clientObjects.push({
+                    group: clientGroup,
+                    sphere: sphere,
+                    client: client
+                });
+            });
+        }
+        
+        function onSelectStart(event) {
+            const controller = event.target;
+            const controllerPos = new THREE.Vector3();
+            controller.getWorldPosition(controllerPos);
+            
+            activeControllers.add(controller.userData.id);
+            
+            const intersectedObject = findIntersectedObject(controllerPos);
+            
+            if (intersectedObject && intersectedObject.userData.isClient) {
+                selectClient(intersectedObject);
+            } else {
+                if (selectedObject) {
+                    selectedObject.userData.material.color.copy(selectedObject.userData.originalColor);
+                    selectedObject.userData.label.visible = false;
+                    selectedObject = null;
+                    updateStatus('Client deselected');
+                    updateStats();
+                }
+            }
+        }
+        
+        function onSelectEnd(event) {
+            const controller = event.target;
+            activeControllers.delete(controller.userData.id);
+        }
+        
+        function selectClient(clientSphere) {
+            if (selectedObject) {
+                selectedObject.userData.material.color.copy(selectedObject.userData.originalColor);
+                selectedObject.userData.label.visible = false;
+            }
+            
+            selectedObject = clientSphere;
+            selectedObject.userData.material.color.setHex(0xffffff);
+            selectedObject.userData.label.visible = true;
+            
+            updateStatus(`Selected: ${selectedObject.userData.client.name}`);
+            updateStats();
+        }
+        
+        function findIntersectedObject(controllerPos) {
+            let closestObject = null;
+            let closestDistance = 0.1;
+            
+            clientObjects.forEach(clientObj => {
+                const worldPos = new THREE.Vector3();
+                clientObj.group.getWorldPosition(worldPos);
+                const distance = controllerPos.distanceTo(worldPos);
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestObject = clientObj.sphere;
+                }
+            });
+            
+            return closestObject;
+        }
+        
+        function resetView() {
+            if (selectedObject) {
+                selectedObject.userData.material.color.copy(selectedObject.userData.originalColor);
+                selectedObject.userData.label.visible = false;
+                selectedObject = null;
+            }
+            updateStatus('View reset');
+            updateStats();
+        }
+        
+        function updateStats() {
+            document.getElementById('total-clients').textContent = clients.length;
+            
+            const activeDeals = clients.filter(c => 
+                c.stage !== 'won' && c.stage !== 'lost'
+            ).length;
+            document.getElementById('active-deals').textContent = activeDeals;
+            
+            const totalValue = clients.reduce((sum, client) => {
+                const value = parseInt(client.dealValue.replace(/[$,]/g, '')) || 0;
+                return sum + value;
+            }, 0);
+            document.getElementById('total-value').textContent = `${totalValue.toLocaleString()}`;
+            
+            document.getElementById('selected-client').textContent = 
+                selectedObject ? selectedObject.userData.client.name : 'None';
+        }
+        
+        function updateStatus(msg) {
+            const status = document.getElementById('status');
+            status.textContent = msg;
+            status.style.display = 'block';
+            
+            if (!msg.includes('not supported')) {
+                setTimeout(() => {
+                    status.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        function render() {
+            clientObjects.forEach((clientObj, i) => {
+                if (clientObj.sphere !== selectedObject) {
+                    const baseY = clientObj.group.position.y;
+                    clientObj.group.position.y = baseY + Math.sin(Date.now() * 0.001 + i) * 0.003;
+                }
+                
+                if (clientObj.sphere.userData.glow) {
+                    const baseOpacity = 0.2;
+                    clientObj.sphere.userData.glow.material.opacity = 
+                        baseOpacity + Math.sin(Date.now() * 0.002 + i) * 0.1;
+                }
+            });
+            
+            stageAreas.forEach((area, i) => {
+                const pad = area.group.children[0];
+                pad.rotation.y = Date.now() * 0.0005 + i;
+            });
+            
+            teamGroups.forEach((team, i) => {
+                const pad = team.group.children[0];
+                pad.rotation.y = Date.now() * 0.0008 + i;
+            });
+            
+            renderer.render(scene, camera);
+        }
+        
+        function onSessionEnd() {
+            document.body.classList.remove('xr-active');
+            xrSession = null;
+            
+            selectedObject = null;
+            clientObjects = [];
+            teamGroups = [];
+            stageAreas = [];
+            controllers = [];
+            activeControllers.clear();
+            
+            while(scene.children.length > 0) {
+                scene.remove(scene.children[0]);
+            }
+            
+            renderer.setAnimationLoop(null);
+            
+            if (renderer.domElement.parentNode) {
+                renderer.domElement.parentNode.removeChild(renderer.domElement);
+            }
+            
+            document.getElementById('crm-content').style.display = 'block';
+        }
+        
+        // Initialize with sample data if empty
+        if (clients.length === 0) {
+            clients = [
+                {
+                    id: generateId(),
+                    name: 'Lars Andersson',
+                    company: 'Nordic Tech AB',
+                    email: 'lars@nordictech.se',
+                    phone: '+46 70 123 4567',
+                    stage: 'discussion',
+                    assignedTo: 'Anna S.',
+                    productInterest: ['Product A', 'Consulting'],
+                    dealValue: '$45,000',
+                    closeDate: '2025-07-15',
+                    followUp: '2025-06-26',
+                    notes: 'Very interested in our enterprise solution',
+                    activities: [
+                        { date: '6/20/2025', action: 'Initial call - discussed needs', user: 'Anna S.' },
+                        { date: '6/22/2025', action: 'Sent proposal', user: 'Anna S.' }
+                    ]
+                },
+                {
+                    id: generateId(),
+                    name: 'Emma Nielsen',
+                    company: 'Copenhagen Design Studio',
+                    email: 'emma@cphdesign.dk',
+                    stage: 'new',
+                    assignedTo: 'Erik L.',
+                    productInterest: ['Product B'],
+                    dealValue: '$12,000',
+                    followUp: '2025-06-24',
+                    activities: [
+                        { date: '6/23/2025', action: 'Client created', user: 'Erik L.' }
+                    ]
+                },
+                {
+                    id: generateId(),
+                    name: 'Olaf Kristensen',
+                    company: 'Bergen Consulting',
+                    email: 'olaf@bergen.no',
+                    stage: 'contacted',
+                    assignedTo: 'Sofia K.',
+                    productInterest: ['Product C'],
+                    dealValue: '$25,000',
+                    followUp: '2025-06-27',
+                    activities: [
+                        { date: '6/24/2025', action: 'Client created', user: 'Sofia K.' }
+                    ]
+                },
+                {
+                    id: generateId(),
+                    name: 'Astrid Holmberg',
+                    company: 'Stockholm Ventures',
+                    email: 'astrid@stockholm.se',
+                    stage: 'won',
+                    assignedTo: 'Anna S.',
+                    productInterest: ['Product A', 'Product B'],
+                    dealValue: '$75,000',
+                    activities: [
+                        { date: '6/15/2025', action: 'Deal closed successfully', user: 'Anna S.' }
+                    ]
+                },
+                {
+                    id: generateId(),
+                    name: 'Magnus Eriksen',
+                    company: 'Oslo Tech',
+                    email: 'magnus@oslo.no',
+                    stage: 'lost',
+                    assignedTo: 'Erik L.',
+                    productInterest: ['Consulting'],
+                    dealValue: '$18,000',
+                    activities: [
+                        { date: '6/10/2025', action: 'Deal lost to competitor', user: 'Erik L.' }
+                    ]
+                },
+                {
+                    id: generateId(),
+                    name: 'Ingrid Svensson',
+                    company: 'Gothenburg Media',
+                    email: 'ingrid@goteborg.se',
+                    stage: 'discussion',
+                    assignedTo: 'Sofia K.',
+                    productInterest: ['Product B', 'Product C'],
+                    dealValue: '$32,000',
+                    followUp: '2025-06-28',
+                    activities: [
+                        { date: '6/21/2025', action: 'Proposal sent', user: 'Sofia K.' }
+                    ]
+                }
+            ];
+            localStorage.setItem('crmClients', JSON.stringify(clients));
+        }
+        
+        // Make functions global for onclick handlers
+        window.openModal = openModal;
+        window.closeModal = closeModal;
+        window.saveClient = saveClient;
+        window.deleteClient = deleteClient;
+        window.filterClients = filterClients;
+        window.showReminders = showReminders;
+        window.openXRIntro = openXRIntro;
+        window.closeXRIntro = closeXRIntro;
+        
+        // Initial render
+        renderClients();
+        
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('clientModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
